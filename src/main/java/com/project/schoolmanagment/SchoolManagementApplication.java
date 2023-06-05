@@ -11,9 +11,6 @@ public class SchoolManagementApplication {
         SpringApplication.run(SchoolManagementApplication.class, args);
 
 
-        //first line of my code
-        //second line of my code
-
     }
 
 }
