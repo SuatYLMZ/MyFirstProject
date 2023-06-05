@@ -1,13 +1,27 @@
 package com.project.schoolmanagment.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDate;
 
+
 @Entity
-public class ContactMessage {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
+//TODO check all generation types and strategies
+public class ContactMessage implements Serializable {
 
     //TODO check all generation types and strategies
     @Id
@@ -15,13 +29,19 @@ public class ContactMessage {
     //better to give a naming contactMessageId, contactMessageName, contactMessageSubject
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String email;
 
+    @NotNull
     private String subject;
 
+    @NotNull
     private String message;
 
+    //2025-06-05
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     private LocalDate date;
 }
