@@ -8,10 +8,15 @@ import com.project.schoolmanagment.payload.response.ResponseMessage;
 import com.project.schoolmanagment.repository.ContactMessageRepository;
 import com.project.schoolmanagment.utils.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,15 +34,52 @@ public class ContactMessageService {
             throw new ConflictException(Messages.ALREADY_SEND_A_MESSAGE_TODAY);
         }
 
-
         ContactMessage contactMessage = createContactMessage(contactMessageRequest);
         ContactMessage savedData = contactMessageRepository.save(contactMessage);
         return ResponseMessage.<ContactMessageResponse>builder()
-                // this message should be moved to messages class and called from there
+                // this message should be moved to Messages class and called from there.
                 .message("Contact Message Created Successfully")
                 .httpStatus(HttpStatus.CREATED)
                 .object(createResponse(savedData))
                 .build();
+    }
+
+
+    public Page<ContactMessageResponse> getAll(int page,int size, String sort, String type){
+        // in this solution type prop. should be instance of Direction
+        // method signature -> getAll(int page,int size, String sort, Direction type)
+        //Pageable myPageable  = PageRequest.of(page,size,Sort.by(type,sort));
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
+        if(Objects.equals(type,"desc")){
+            pageable = PageRequest.of(page,size,Sort.by(sort).descending());
+        }
+
+        return contactMessageRepository.findAll(pageable).map(this::createResponse);
+    }
+
+    public Page<ContactMessageResponse> searchByEmail(String email, int page, int size, String sort, String type){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        if(Objects.equals(type,"desc")){
+            pageable = PageRequest.of(page,size,Sort.by(sort).descending());
+        }
+        return contactMessageRepository.findByEmailEquals(email,pageable).map(this::createResponse);
+    }
+
+    public Page<ContactMessageResponse> searchBySubject(String subject, int page, int size, String sort, String type){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(sort).ascending());
+        if (Objects.equals(type,"desc")){
+            pageable = PageRequest.of(page,size,Sort.by(sort).descending());
+        }
+        return contactMessageRepository.findBySubjectEquals(subject,pageable).map(this::createResponse);
+    }
+
+    public Page<ContactMessageResponse> deleteById(int id, int page, int size, String sort, String type) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        }
+        return contactMessageRepository.deleteByIdEquals(id, pageable).map(this::createResponse);
     }
 
     private ContactMessageResponse createResponse(ContactMessage contactMessage){
