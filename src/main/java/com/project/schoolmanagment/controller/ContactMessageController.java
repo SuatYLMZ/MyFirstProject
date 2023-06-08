@@ -80,6 +80,11 @@ public class ContactMessageController {
         return contactMessageService.deleteById(id,page,size,sort,type);
     }
 
+    //TODO please add more endpoints for
+    // 1 -> DELETE by ID,
+    // 2 -> update (first find the correct contact message according to its ID,
+    // 3 -> getAllMessages as a list.
+
 
 
 }
