@@ -19,5 +19,4 @@ public class ResponseMessage<E> {
     private HttpStatus httpStatus;
 
 
-
 }

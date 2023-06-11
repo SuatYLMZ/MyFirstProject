@@ -26,7 +26,6 @@ public class ContactMessageController {
      *     "message": "this is my message"
      * }
      */
-
     @PostMapping("/save")
     public ResponseMessage<ContactMessageResponse> save(@RequestBody @Valid ContactMessageRequest contactMessageRequest){
         return contactMessageService.save(contactMessageRequest);
@@ -40,7 +39,6 @@ public class ContactMessageController {
      * @param type DESC or ASC
      * @return ContactMessageResponse
      */
-
     @GetMapping("/getAll")
     public Page<ContactMessageResponse> getAll(
             @RequestParam(value = "page",defaultValue = "0") int page,
@@ -49,6 +47,7 @@ public class ContactMessageController {
             @RequestParam(value = "type", defaultValue = "desc") String type){
         return contactMessageService.getAll(page,size,sort,type);
     }
+
     @GetMapping("/searchByEmail")
     public Page<ContactMessageResponse> searchByEmail(
             @RequestParam(value = "email") String email,
@@ -56,8 +55,7 @@ public class ContactMessageController {
             @RequestParam(value = "size",defaultValue = "10") int size,
             @RequestParam(value = "sort",defaultValue = "date") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type){
-
-        return contactMessageService.searchByEmail(email,page, size, sort, type);
+        return contactMessageService.searchByEmail(email,page,size,sort,type);
     }
 
     @GetMapping("/searchBySubject")
@@ -67,23 +65,15 @@ public class ContactMessageController {
             @RequestParam(value = "size",defaultValue = "10") int size,
             @RequestParam(value = "sort",defaultValue = "date") String sort,
             @RequestParam(value = "type", defaultValue = "desc") String type){
-        return contactMessageService.searchBySubject(subject,page, size, sort, type);
-    }
-
-    @DeleteMapping("/deleteById")
-    public Page<ContactMessageResponse> deleteById(
-            @RequestParam(value = "id") int id,
-            @RequestParam(value = "page",defaultValue = "0") int page,
-            @RequestParam(value = "size",defaultValue = "10") int size,
-            @RequestParam(value = "sort",defaultValue = "date") String sort,
-            @RequestParam(value = "type", defaultValue = "desc") String type){
-        return contactMessageService.deleteById(id,page,size,sort,type);
+        return contactMessageService.searchBySubject(subject,page,size,sort,type);
     }
 
     //TODO please add more endpoints for
     // 1 -> DELETE by ID,
     // 2 -> update (first find the correct contact message according to its ID,
-    // 3 -> getAllMessages as a list as well.
+    // 3 -> getAllMessages as a list.
+
+
 
 
 

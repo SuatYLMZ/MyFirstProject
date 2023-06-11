@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name= "roles")
+@Table(name = "roles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +23,6 @@ public class UserRole {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private RoleType roleType;
-
 
 
 

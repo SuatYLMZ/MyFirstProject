@@ -12,15 +12,16 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@MappedSuperclass // this means this class won't be a table but child classes could be a table.
-                  // Child class Admin has all properties of User and will be a table because of
-                  // @Entity annotation.
+@MappedSuperclass
+// properties will be used in child classes
+// since we do not have @Entity annotation, this class is not a table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-////https://www.baeldung.com/lombok-builder-inheritance
-// is a kind of builder design pattern implementation, no relation for entity inheritance
+//https://www.baeldung.com/lombok-builder-inheritance
+//is a kind of builder design pattern implementation
+//no relation for entity inheritance
 public abstract class User {
 
     @Id
@@ -30,6 +31,7 @@ public abstract class User {
     @Column(unique = true)
     private String username;
 
+
     @Column(unique = true)
     private String ssn;
 
@@ -37,7 +39,7 @@ public abstract class User {
 
     private String surname;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING , pattern = "yyyy-MM-dd")
     private LocalDate birthDay;
 
     private String birthPlace;
@@ -52,5 +54,10 @@ public abstract class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserRole userRole;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
+
+
+
 }

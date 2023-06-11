@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
@@ -34,8 +34,9 @@ public class Student extends User {
     private AdvisoryTeacher advisoryTeacher;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "student",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE)
     private List<StudentInfo> studentInfos;
+
 
     @ManyToMany
     @JsonIgnore
@@ -43,8 +44,9 @@ public class Student extends User {
             name = "student_lessonprogram",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_program_id")
-    ) // many-to-many tables always needs join table
-    private Set<LessonProgram>lessonsProgramList;
+    )
+    private Set<LessonProgram> lessonsProgramList;
+
 
     @JsonIgnore
     @ManyToMany
@@ -54,8 +56,6 @@ public class Student extends User {
             inverseJoinColumns = @JoinColumn(name = "meet_id")
     )
     private List<Meet> meetList;
-
-
 
 
 }

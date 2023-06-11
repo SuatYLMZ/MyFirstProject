@@ -1,26 +1,53 @@
 package com.project.schoolmanagment.controller;
 
-import com.project.schoolmanagment.payload.request.abstracts.AdminRequest;
+import com.project.schoolmanagment.entity.concretes.Admin;
+import com.project.schoolmanagment.payload.request.AdminRequest;
 import com.project.schoolmanagment.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController// This mean this class will have base url end points
+import javax.validation.Valid;
+import java.util.Objects;
+
+@RestController
 @RequestMapping("admin")
 @RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService adminService;
 
-
     @PostMapping("/save")
-    public ResponseEntity<?>save(AdminRequest adminRequest){
-        return null;
+    public ResponseEntity<?>save(@RequestBody @Valid AdminRequest adminRequest){
+        return ResponseEntity.ok(adminService.save(adminRequest));
     }
 
+@GetMapping("/getAll")
+    public ResponseEntity<Page<Admin>>getAll(
+            @RequestParam(value = "page",defaultValue = "0")int page,
+            @RequestParam(value = "size",defaultValue = "10")int size,
+            @RequestParam(value = "sort",defaultValue = "name")String sort,
+            @RequestParam(value = "type",defaultValue = "desc")String type
+    ){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
+
+        if(Objects.equals(type,"desc")){
+            pageable= PageRequest.of(page, size,Sort.by(sort).descending());
+        }
+
+        Page<Admin>admins= adminService.getAllAdmins(pageable);
+        return new ResponseEntity<>(admins, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.deleteAdmin(id));
+    }
 
 
 }

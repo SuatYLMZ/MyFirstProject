@@ -1,6 +1,5 @@
 package com.project.schoolmanagment.payload.response;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class ContactMessageResponse implements Serializable {
 
     private String name;
@@ -20,5 +19,6 @@ public class ContactMessageResponse implements Serializable {
     private String subject;
     private String message;
     private LocalDate date;
+
 
 }

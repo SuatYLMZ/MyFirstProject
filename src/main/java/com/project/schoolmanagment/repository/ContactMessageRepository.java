@@ -1,14 +1,16 @@
 package com.project.schoolmanagment.repository;
 
 import com.project.schoolmanagment.entity.concretes.ContactMessage;
+import com.project.schoolmanagment.payload.response.ContactMessageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 
-public interface ContactMessageRepository extends JpaRepository<ContactMessage,Long> {
+@Repository
+public interface ContactMessageRepository extends JpaRepository<ContactMessage, Long> {
     /*
      * existsByEmailEqualsAndDateEquals(String email, LocalDate date)
      * This method checks if a contact message exists by comparing the email
@@ -30,9 +32,7 @@ public interface ContactMessageRepository extends JpaRepository<ContactMessage,L
 
     Page<ContactMessage>findByEmailEquals(String email, Pageable pageable);
 
-    Page<ContactMessage>  findBySubjectEquals(String subject, Pageable pageable);
-
-    Page<ContactMessage>deleteByIdEquals(int id , Pageable pageable);
+    Page<ContactMessage>findBySubjectEquals(String subject,Pageable pageable);
 
 
 

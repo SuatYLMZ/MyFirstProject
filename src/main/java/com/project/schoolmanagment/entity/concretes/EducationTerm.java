@@ -28,24 +28,26 @@ public class EducationTerm {
     @Enumerated(EnumType.STRING)
     private Term term;
 
-    @NotNull(message = "Start day must not be empty")
+    @NotNull(message = "Start date must not me empty")
     @Column(name = "start_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @NotNull(message = "End day must not be empty")
+    @NotNull(message = "End date must not me empty")
     @Column(name = "end_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    @NotNull(message = "Last registration day must not be empty")
+    @NotNull(message = "Last registration date must not me empty")
     @Column(name = "last_registration_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate lastRegistrationDate;
 
-    @OneToMany(mappedBy = "educationTerm",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "educationTerm" ,cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<LessonProgram> lessonProgram;
+
+
 
 
 }

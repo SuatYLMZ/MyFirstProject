@@ -1,5 +1,6 @@
 package com.project.schoolmanagment.entity.concretes;
 
+
 import com.project.schoolmanagment.entity.abstracts.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -17,9 +18,8 @@ import java.util.Set;
 @ToString(callSuper = true)
 public class Teacher extends User {
 
-
     //TODO learn about cascade types and orphanRemoval
-    @OneToOne(mappedBy = "teacher", cascade = CascadeType.PERSIST,orphanRemoval = true)
+    @OneToOne(mappedBy = "teacher", cascade = CascadeType.PERSIST ,orphanRemoval = true)
     private AdvisoryTeacher advisoryTeacher;
 
     @Column(name = "isAdvisor")
@@ -28,15 +28,23 @@ public class Teacher extends User {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "teacher",cascade = CascadeType.REMOVE)
     private List<StudentInfo> studentInfos;
 
     @ManyToMany
     @JoinTable(
             name = "teacher_lessonprogram",
-            joinColumns = @JoinColumn(name="lesson_program_id")
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "lesson_program_id")
     )
-    private Set<LessonProgram>lessonsProgramList;
+    private Set<LessonProgram> lessonsProgramList;
+
+
+
+
+
+
 
 
 

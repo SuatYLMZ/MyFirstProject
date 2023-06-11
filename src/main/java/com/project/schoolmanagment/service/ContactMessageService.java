@@ -7,6 +7,7 @@ import com.project.schoolmanagment.payload.response.ContactMessageResponse;
 import com.project.schoolmanagment.payload.response.ResponseMessage;
 import com.project.schoolmanagment.repository.ContactMessageRepository;
 import com.project.schoolmanagment.utils.Messages;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+
 import java.util.Objects;
+
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +49,7 @@ public class ContactMessageService {
 
 
     public Page<ContactMessageResponse> getAll(int page,int size, String sort, String type){
-        // in this solution type prop. should be instance of Direction
+        // in this solution type prop. should be an instance of Direction
         // method signature -> getAll(int page,int size, String sort, Direction type)
         //Pageable myPageable  = PageRequest.of(page,size,Sort.by(type,sort));
 
@@ -66,20 +69,12 @@ public class ContactMessageService {
         return contactMessageRepository.findByEmailEquals(email,pageable).map(this::createResponse);
     }
 
-    public Page<ContactMessageResponse> searchBySubject(String subject, int page, int size, String sort, String type){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(sort).ascending());
-        if (Objects.equals(type,"desc")){
-            pageable = PageRequest.of(page,size,Sort.by(sort).descending());
+    public Page<ContactMessageResponse> searchBySubject(String subject, int page,int size,String sort,String type){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        if(Objects.equals(type,"desc")){
+            pageable = PageRequest.of(page, size,Sort.by(sort).descending());
         }
         return contactMessageRepository.findBySubjectEquals(subject,pageable).map(this::createResponse);
-    }
-
-    public Page<ContactMessageResponse> deleteById(int id, int page, int size, String sort, String type) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
-        if (Objects.equals(type, "desc")) {
-            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        }
-        return contactMessageRepository.deleteByIdEquals(id, pageable).map(this::createResponse);
     }
 
     private ContactMessageResponse createResponse(ContactMessage contactMessage){

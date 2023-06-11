@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -34,7 +35,7 @@ public class Meet {
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm",timezone = "US")
     private LocalTime stopTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties("teacher")
     private AdvisoryTeacher advisoryTeacher;
 
@@ -44,6 +45,8 @@ public class Meet {
             joinColumns = @JoinColumn(name = "meet_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    private List<Student>studentList;
+    private List<Student> studentList;
+
+
 
 }

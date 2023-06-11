@@ -22,19 +22,13 @@ public class StudentInfo {
     /**
      * number of absentees of the student in the lessons
      */
-    // we have to write notes like this all the time so others can understand us as well
-
     private Integer absentee;
-
 
     private Double midtermExam;
 
-
     private Double finalExam;
 
-
     private Double examAverage;
-
 
     private String infoNote;
 
@@ -50,6 +44,11 @@ public class StudentInfo {
 
     @OneToOne
     private EducationTerm educationTerm;
+
+
+
+
+
 
 
 }

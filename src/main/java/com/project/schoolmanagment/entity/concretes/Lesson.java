@@ -28,5 +28,4 @@ public class Lesson {
     @ManyToMany(mappedBy = "lesson")
     private Set<LessonProgram> lessonPrograms;
 
-
 }
