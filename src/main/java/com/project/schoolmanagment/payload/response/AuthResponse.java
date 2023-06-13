@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +19,5 @@ public class AuthResponse {
     private String token;
     private String name;
     private String isAdvisory;
-
-
 
 }
