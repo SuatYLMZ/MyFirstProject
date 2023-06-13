@@ -23,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(AuthTokenFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     private JwtUtils jwtUtils;
 
@@ -38,12 +38,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
 
             //2-) Validate JWT
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)){
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 //3-) We need username for this we get this data from JWT
                 String userName = jwtUtils.getUserNameFromJwtToken(jwt);
                 //4-) Check the DB and find the user then upgrade the user to UserDetails
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-                request.setAttribute("username",userName);
+                request.setAttribute("username", userName);
                 //5-) We have userDetails object then we have to send this information to the SPRING SECURITY CONTEXT
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -51,16 +51,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             }
-        }catch (UsernameNotFoundException e){
+        } catch (UsernameNotFoundException e) {
             LOGGER.error("Can not set user authentication");
         }
     }
 
 
-    private String parseJwt(HttpServletRequest request){
+    private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")){
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
         return null;

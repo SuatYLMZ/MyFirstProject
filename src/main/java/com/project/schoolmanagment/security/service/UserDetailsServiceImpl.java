@@ -53,7 +53,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     false,
                     admin.getPassword(),
                     admin.getUserRole().getRoleType().name());
-        }else if (dean!=null) {
+        } else if (dean != null) {
             return new UserDetailsImpl(
                     dean.getId(),
                     dean.getUsername(),
@@ -61,7 +61,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     false,
                     dean.getPassword(),
                     dean.getUserRole().getRoleType().name());
-        }else if (viceDean!=null) {
+        } else if (viceDean != null) {
             return new UserDetailsImpl(
                     viceDean.getId(),
                     viceDean.getUsername(),
@@ -70,6 +70,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     viceDean.getPassword(),
                     viceDean.getUserRole().getRoleType().name());
         }
-        throw new UsernameNotFoundException("User '" + username+ "  ' not found");
+        throw new UsernameNotFoundException("User '" + username + "  ' not found");
     }
 }
