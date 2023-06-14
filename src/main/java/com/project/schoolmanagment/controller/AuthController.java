@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class  AuthController {
 
 
     public final JwtUtils jwtUtils;
