@@ -7,14 +7,13 @@ import com.project.schoolmanagment.payload.request.AdminRequest;
 import com.project.schoolmanagment.payload.response.AdminResponse;
 import com.project.schoolmanagment.payload.response.ResponseMessage;
 import com.project.schoolmanagment.repository.*;
+import com.project.schoolmanagment.utils.FieldControl;
 import com.project.schoolmanagment.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.ConcurrentModificationException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,22 +23,14 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    private final DeanRepository deanRepository;
-
-    private final ViceDeanRepository viceDeanRepository;
-
-    private final StudentRepository studentRepository;
-
-    private final TeacherRepository teacherRepository;
-
-    private final GuestUserRepository guestUserRepository;
-
     private final UserRoleService userRoleService;
+
+    private final FieldControl fieldControl;
 
 
     public ResponseMessage save (AdminRequest adminRequest){
 
-        checkDuplicate(adminRequest.getUsername(), adminRequest.getSsn(), adminRequest.getPhoneNumber());
+        fieldControl.checkDuplicate(adminRequest.getUsername(), adminRequest.getSsn(), adminRequest.getPhoneNumber());
 
         Admin admin = mapAdminRequestToAdmin(adminRequest);
         admin.setBuilt_in(false);
@@ -63,24 +54,28 @@ public class AdminService {
                 .build();
     }
 
-    public Page<Admin>getAllAdmins(Pageable pageable){
+    public Page<Admin> getAllAdmins(Pageable pageable){
         return adminRepository.findAll(pageable);
     }
 
     public String deleteAdmin(Long id){
-        //we should check the DB if it really exists
+        //we should check the database if it really exists
         Optional<Admin>admin = adminRepository.findById(id);
-
-        if (admin.isPresent()&&admin.get().isBuilt_in()){
+        //TODO please divide the cases and throw meaningful response messages
+        if(admin.isPresent() && admin.get().isBuilt_in()){
             throw new ConflictException(Messages.NOT_PERMITTED_METHOD_MESSAGE);
         }
 
         if (admin.isPresent()){
             adminRepository.deleteById(id);
+            //TODO move this hard coded part to Messages class and call this property.
             return "Admin is deleted successfully";
         }
-        return String.format(Messages.NOT_FOUND_USER_MESSAGE) ;
+
+        return String.format(Messages.NOT_FOUND_USER_MESSAGE,id);
+
     }
+
 
     private AdminResponse mapAdminToAdminResponse(Admin admin){
         return AdminResponse.builder()
@@ -113,33 +108,7 @@ public class AdminService {
 
 
 
-    //As a requirement all Admin,ViceAdmin,Dean, Student, Teacher, guestUser
-    //should have unique userName, email, ssn and phone number
-    public void checkDuplicate(String username, String ssn,String phone){
 
-        if(adminRepository.existsByUsername(username) ||
-                deanRepository.existsByUsername(username) ||
-                studentRepository.existsByUsername(username) ||
-                teacherRepository.existsByUsername(username) ||
-                viceDeanRepository.existsByUsername(username) ||
-                guestUserRepository.existsByUsername(username)){
-            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_USERNAME,username));
-        } else if (adminRepository.existsBySsn(ssn) ||
-                deanRepository.existsBySsn(ssn) ||
-                studentRepository.existsBySsn(ssn) ||
-                teacherRepository.existsBySsn(ssn) ||
-                viceDeanRepository.existsBySsn(ssn) ||
-                guestUserRepository.existsBySsn(ssn) ){
-            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_SSN,ssn));
-        } else if (adminRepository.existsByPhoneNumber(phone) ||
-                deanRepository.existsByPhoneNumber(phone) ||
-                studentRepository.existsByPhoneNumber(phone) ||
-                teacherRepository.existsByPhoneNumber(phone) ||
-                viceDeanRepository.existsByPhoneNumber(phone) ||
-                guestUserRepository.existsByPhoneNumber(phone)) {
-            throw new ConflictException(String.format(Messages.ALREADY_REGISTER_MESSAGE_PHONE_NUMBER,phone));
-        }
-    }
 
     public long countAllAdmins(){
         return adminRepository.count();
