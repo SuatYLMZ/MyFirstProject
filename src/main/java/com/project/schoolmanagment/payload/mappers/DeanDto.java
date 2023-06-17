@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class DeanDto {
 
 
-    private final UserRoleService userRoleService;
+     private final UserRoleService userRoleService;
 
     public Dean mapDeanRequestToDean(DeanRequest deanRequest){
         return Dean.builder()
@@ -26,7 +26,6 @@ public class DeanDto {
                 .birthPlace(deanRequest.getBirthPlace())
                 .phoneNumber(deanRequest.getPhoneNumber())
                 .gender(deanRequest.getGender())
-                .ssn(deanRequest.getSsn())
                 .build();
 
     }

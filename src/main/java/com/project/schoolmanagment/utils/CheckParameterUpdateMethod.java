@@ -5,6 +5,12 @@ import com.project.schoolmanagment.payload.request.abstracts.BaseUserRequest;
 
 public class CheckParameterUpdateMethod {
 
+    /**
+     *
+     * @param user : a kind of entity that will be validated
+     * @param baseUserRequest : DTO from UI to be changed
+     * @return true if they are the same
+     */
 
     public static boolean checkUniqueProperties(User user, BaseUserRequest baseUserRequest){
 

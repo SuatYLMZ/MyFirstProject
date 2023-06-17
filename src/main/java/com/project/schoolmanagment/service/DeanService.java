@@ -12,11 +12,18 @@ import com.project.schoolmanagment.utils.CheckParameterUpdateMethod;
 import com.project.schoolmanagment.utils.FieldControl;
 import com.project.schoolmanagment.utils.Messages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +40,7 @@ public class DeanService {
 
     private final DeanRepository deanRepository;
 
-    //TODO use mapsturct in your 3. repository
+    //TODO use mapstruct in your 3. repository
     public ResponseMessage<DeanResponse> save(DeanRequest deanRequest) {
         fieldControl.checkDuplicate(deanRequest.getUsername(), deanRequest.getSsn(), deanRequest.getPhoneNumber());
         Dean dean = deanDto.mapDeanRequestToDean(deanRequest);
@@ -53,7 +60,7 @@ public class DeanService {
         Optional<Dean> dean = isDeanExist(deanId);
 
         //we are preventing the user to change the username + ssn + phoneNumber
-        if (CheckParameterUpdateMethod.checkUniqueProperties(dean.get(), deanRequest)) {
+        if (!CheckParameterUpdateMethod.checkUniqueProperties(dean.get(), deanRequest)) {
             fieldControl.checkDuplicate(deanRequest.getUsername(),
                     deanRequest.getSsn(),
                     deanRequest.getPhoneNumber());
@@ -91,10 +98,43 @@ public class DeanService {
 
         deanRepository.deleteById(deanId);
 
-        return ResponseMessage.builder()
+        return ResponseMessage.<DeanResponse>builder()
                 .message("Dean deleted")
                 .httpStatus(HttpStatus.OK)
                 .build();
+    }
+
+
+    public ResponseMessage<DeanResponse> getDeanById(Long deanId) {
+
+        return ResponseMessage.<DeanResponse>builder()
+                .message("Dean successfully found")
+                .httpStatus(HttpStatus.OK)
+                .object(deanDto.mapDeanToDeanResponse(isDeanExist(deanId).get()))
+                .build();
+    }
+
+
+    public List<DeanResponse> getAllDeans() {
+
+        return deanRepository.findAll()
+                .stream()
+                .map(deanDto::mapDeanToDeanResponse)
+                .collect(Collectors.toList());
+
+
+    }
+
+
+    public Page<DeanResponse> getAllDeansByPage(int page, int size, String sort, String type) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        }
+
+        return deanRepository.findAll(pageable).map(deanDto::mapDeanToDeanResponse);
+
     }
 
 
