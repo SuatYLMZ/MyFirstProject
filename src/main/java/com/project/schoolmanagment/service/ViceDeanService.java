@@ -9,8 +9,8 @@ import com.project.schoolmanagment.payload.response.ResponseMessage;
 import com.project.schoolmanagment.payload.response.ViceDeanResponse;
 import com.project.schoolmanagment.repository.ViceDeanRepository;
 import com.project.schoolmanagment.utils.CheckParameterUpdateMethod;
-import com.project.schoolmanagment.utils.ServiceHelpers;
 import com.project.schoolmanagment.utils.Messages;
+import com.project.schoolmanagment.utils.ServiceHelpers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -128,3 +128,39 @@ public class ViceDeanService {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

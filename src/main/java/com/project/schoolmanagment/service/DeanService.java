@@ -9,19 +9,16 @@ import com.project.schoolmanagment.payload.response.DeanResponse;
 import com.project.schoolmanagment.payload.response.ResponseMessage;
 import com.project.schoolmanagment.repository.DeanRepository;
 import com.project.schoolmanagment.utils.CheckParameterUpdateMethod;
-import com.project.schoolmanagment.utils.ServiceHelpers;
 import com.project.schoolmanagment.utils.Messages;
+import com.project.schoolmanagment.utils.ServiceHelpers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -42,7 +39,9 @@ public class DeanService {
 
     //TODO use mapstruct in your 3. repository
     public ResponseMessage<DeanResponse> save(DeanRequest deanRequest) {
-        serviceHelpers.checkDuplicate(deanRequest.getUsername(), deanRequest.getSsn(), deanRequest.getPhoneNumber());
+        serviceHelpers.checkDuplicate(deanRequest.getUsername(),
+                                        deanRequest.getSsn(),
+                                        deanRequest.getPhoneNumber());
         Dean dean = deanDto.mapDeanRequestToDean(deanRequest);
         dean.setUserRole(userRoleService.getUserRole(RoleType.MANAGER));
         dean.setPassword(passwordEncoder.encode(dean.getPassword()));

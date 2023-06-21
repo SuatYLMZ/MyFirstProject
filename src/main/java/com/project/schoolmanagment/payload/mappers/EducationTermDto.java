@@ -1,9 +1,7 @@
 package com.project.schoolmanagment.payload.mappers;
 
 import com.project.schoolmanagment.entity.concretes.EducationTerm;
-import com.project.schoolmanagment.entity.concretes.ViceDean;
 import com.project.schoolmanagment.payload.request.EducationTermRequest;
-import com.project.schoolmanagment.payload.request.ViceDeanRequest;
 import com.project.schoolmanagment.payload.response.EducationTermResponse;
 import lombok.Data;
 import org.springframework.stereotype.Component;

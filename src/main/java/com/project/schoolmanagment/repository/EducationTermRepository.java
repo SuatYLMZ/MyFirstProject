@@ -11,7 +11,7 @@ public interface EducationTermRepository extends JpaRepository<EducationTerm,Lon
     boolean existsByTermAndYear(Term term, int year);
 
 
-
     @Query("SELECT educationTerm from EducationTerm educationTerm where educationTerm.id=?1")
     EducationTerm findByIdEquals(Long id);
+
 }

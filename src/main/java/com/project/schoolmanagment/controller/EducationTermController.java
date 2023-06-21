@@ -28,7 +28,7 @@ public class EducationTermController {
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER','TEACHER')")
     @GetMapping("/{id}")
     public EducationTermResponse getEducationTermById(@PathVariable Long id){
-        return educationTermService.getEducationTermById(id);
+        return educationTermService.getEducationTermResponseById(id);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER','TEACHER')")
@@ -61,7 +61,9 @@ public class EducationTermController {
     }
 
     //TODO Please write down a request that gets all education terms later then entered date
-    // hint --> should be post request
+    // hint --> should be get request with parameter
+
+
 
 
 

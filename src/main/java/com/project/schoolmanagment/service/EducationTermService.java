@@ -6,7 +6,6 @@ import com.project.schoolmanagment.payload.mappers.EducationTermDto;
 import com.project.schoolmanagment.payload.request.EducationTermRequest;
 import com.project.schoolmanagment.payload.response.EducationTermResponse;
 import com.project.schoolmanagment.payload.response.ResponseMessage;
-import com.project.schoolmanagment.payload.response.ViceDeanResponse;
 import com.project.schoolmanagment.repository.EducationTermRepository;
 import com.project.schoolmanagment.utils.Messages;
 import com.project.schoolmanagment.utils.ServiceHelpers;
@@ -52,7 +51,7 @@ public class EducationTermService {
     }
 
 
-    public EducationTermResponse getEducationTermById(Long id){
+    public EducationTermResponse getEducationTermResponseById(Long id){
 
 //		return educationTermDto.mapEducationTermToEducationTermResponse
 //				(educationTermRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Could not find Education term with id " + id)));
@@ -62,6 +61,12 @@ public class EducationTermService {
         return educationTermDto.mapEducationTermToEducationTermResponse(term);
 
     }
+
+
+    public EducationTerm getEducationTermById(Long id){
+        return isEducationTermExist(id);
+    }
+
 
 
     public ResponseMessage<?>deleteEducationTermById(Long id){
@@ -98,6 +103,8 @@ public class EducationTermService {
                 .build();
 
     }
+
+
 
     private EducationTerm isEducationTermExist(Long id){
         EducationTerm term = educationTermRepository.findByIdEquals(id);
