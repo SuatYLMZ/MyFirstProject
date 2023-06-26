@@ -1,5 +1,6 @@
 package com.project.schoolmanagment.controller;
 
+import com.project.schoolmanagment.payload.request.ChooseLessonTeacherRequest;
 import com.project.schoolmanagment.payload.request.TeacherRequest;
 import com.project.schoolmanagment.payload.response.ResponseMessage;
 import com.project.schoolmanagment.payload.response.TeacherResponse;
@@ -43,6 +44,8 @@ public class TeacherController {
 	public ResponseMessage deleteTeacherById(@PathVariable Long id){
 		return teacherService.deleteTeacherById(id);
 	}
+
+
 	@PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER')")
 	@GetMapping("/getSavedTeacherById/{id}")
 	public ResponseMessage<TeacherResponse> findTeacherById(@PathVariable Long id){
@@ -61,6 +64,18 @@ public class TeacherController {
 
 
 
+	@PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER')")
+	@PutMapping("/update/{userId}")
+	public ResponseMessage<TeacherResponse>updateTeacher(@RequestBody @Valid TeacherRequest teacherRequest,
+														 @PathVariable Long userId){
+		return teacherService.updateTeacher(teacherRequest,userId);
+
+	}
+	@PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER')")
+	@PostMapping("/chooseLesson")
+	public ResponseMessage<TeacherResponse> chooseLesson(@RequestBody @Valid ChooseLessonTeacherRequest chooseLessonTeacherRequest){
+		return teacherService.chooseLesson(chooseLessonTeacherRequest);
+	}
 
 
 

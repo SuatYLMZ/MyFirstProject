@@ -7,18 +7,18 @@ import java.util.List;
 
 public interface TeacherRepository extends JpaRepository<Teacher,Long> {
 
-	boolean existsByUsername(String username);
+    boolean existsByUsername(String username);
 
-	boolean existsBySsn (String ssn);
+    boolean existsBySsn (String ssn);
 
-	boolean existsByPhoneNumber (String phone);
+    boolean existsByPhoneNumber (String phone);
 
-	Teacher findByUsernameEquals (String username);
+    Teacher findByUsernameEquals (String username);
 
-	boolean existsByEmail(String email);
+    boolean existsByEmail(String email);
 
-	List<Teacher>getTeachersByNameContaining(String teacherName);
+    List<Teacher>getTeachersByNameContaining(String teacherName);
 
-	Teacher getTeachersByUsername(String userName);
+    Teacher getTeachersByUsername(String userName);
 
 }
