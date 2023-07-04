@@ -1,12 +1,17 @@
 package com.project.schoolmanagment.payload.mappers;
 
+import com.project.schoolmanagment.entity.concretes.EducationTerm;
+import com.project.schoolmanagment.entity.concretes.Lesson;
 import com.project.schoolmanagment.entity.concretes.StudentInfo;
 import com.project.schoolmanagment.entity.enums.Note;
 import com.project.schoolmanagment.payload.request.StudentInfoRequest;
+import com.project.schoolmanagment.payload.request.UpdateStudentInfoRequest;
 import com.project.schoolmanagment.payload.response.StudentInfoResponse;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Component
 @Data
@@ -16,13 +21,33 @@ public class StudentInfoDto {
 	private StudentDto studentDto;
 
 	public StudentInfo mapStudentInfoRequestToStudentInfo(StudentInfoRequest studentInfoRequest,
-															Note note,
-	                                                      Double average){
+														  Note note,
+														  Double average){
 		return StudentInfo.builder()
 				.infoNote(studentInfoRequest.getInfoNote())
 				.absentee(studentInfoRequest.getAbsentee())
 				.midtermExam(studentInfoRequest.getMidtermExam())
 				.finalExam(studentInfoRequest.getFinalExam())
+				.examAverage(average)
+				.letterGrade(note)
+				.build();
+	}
+
+	//TODO refactor this method by using mapStudentInfoRequestToStudentInfo if possible.
+	public StudentInfo mapStudentInfoUpdateToStudentInfo(UpdateStudentInfoRequest studentInfoRequest,
+														 Long studentInfoRequestId,
+														 Lesson lesson,
+														 EducationTerm educationTerm,
+														 Note note,
+														 Double average){
+		return StudentInfo.builder()
+				.id(studentInfoRequestId)
+				.infoNote(studentInfoRequest.getInfoNote())
+				.midtermExam(studentInfoRequest.getMidtermExam())
+				.finalExam(studentInfoRequest.getFinalExam())
+				.absentee(studentInfoRequest.getAbsentee())
+				.lesson(lesson)
+				.educationTerm(educationTerm)
 				.examAverage(average)
 				.letterGrade(note)
 				.build();
@@ -46,5 +71,6 @@ public class StudentInfoDto {
 				.studentResponse(studentDto.mapStudentToStudentResponse(studentInfo.getStudent()))
 				.build();
 	}
+
 
 }
