@@ -83,5 +83,13 @@ public class StudentInfoController {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANT_MANAGER','TEACHER')")
+    @GetMapping("/get/{studentId}")
+    public ResponseEntity<StudentInfoResponse>getStudentInfoById(@PathVariable Long studentInfoId){
+
+        return ResponseEntity.ok(studentInfoService.findStudentInfoById(studentInfoId));
+    }
+
+
 
 }
