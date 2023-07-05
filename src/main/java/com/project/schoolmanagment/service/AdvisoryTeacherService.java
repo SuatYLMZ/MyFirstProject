@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.util.List;
 import java.util.Optional;
@@ -85,15 +86,19 @@ public class AdvisoryTeacherService {
 	}
 
 	public ResponseMessage deleteAdvisorTeacherById(Long id){
-		AdvisoryTeacher advisoryTeacher= getAdvisoryTeacherById(id);
+		AdvisoryTeacher advisoryTeacher = getAdvisoryTeacherById(id);
 		advisoryTeacherRepository.deleteById(advisoryTeacher.getId());
-
 		return ResponseMessage.<AdvisoryTeacher>builder()
 				.message("Advisor Teacher Deleted Successfully")
 				.httpStatus(HttpStatus.OK)
 				.build();
 	}
 
+	public AdvisoryTeacher getAdvisorTeacherByUsername(String username){
+		return advisoryTeacherRepository
+				.findByTeacher_UsernameEquals(username)
+				.orElseThrow(()->new ResourceNotFoundException(String.format(Messages.NOT_FOUND_ADVISOR_MESSAGE_WITH_USERNAME,username)));
+	}
 
 
 
