@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -119,8 +121,24 @@ public class StudentInfoService {
         Pageable pageable = serviceHelpers.getPageableWithProperties(page, size);
         String username = (String) httpServletRequest.getAttribute("username");
         return studentInfoRepository
-                .findByTeacherId_UsernameEquals(username,pageable)
+                .findByStudentId_UsernameEquals(username,pageable)
                 .map(studentInfoDto::mapStudentInfoToStudentInfoResponse);
+    }
+
+    public List<StudentInfoResponse> getStudentInfoByStudentId(Long studentId){
+        studentService.isStudentsExist(studentId);
+        if(!studentInfoRepository.existsByStudent_IdEquals(studentId)){
+            throw new ResourceNotFoundException(String.format(Messages.STUDENT_INFO_NOT_FOUND_BY_STUDENT_ID,studentId));
+        }
+
+        return studentInfoRepository.findByStudent_IdEquals(studentId)
+                .stream()
+                .map(studentInfoDto::mapStudentInfoToStudentInfoResponse)
+                .collect(Collectors.toList());
+    }
+
+    public StudentInfoResponse findStudentInfoById(Long id){
+        return studentInfoDto.mapStudentInfoToStudentInfoResponse(isStudentInfoExistById(id));
     }
 
 
@@ -164,7 +182,7 @@ public class StudentInfoService {
     public StudentInfo isStudentInfoExistById(Long id){
         boolean isExist = studentInfoRepository.existsByIdEquals(id);
         if(!isExist){
-            throw new ResourceNotFoundException(String.format(Messages.STUDENT_INFO_NOT_FOUND));
+            throw new ResourceNotFoundException(String.format(Messages.STUDENT_INFO_NOT_FOUND,id));
         } else {
             return studentInfoRepository.findById(id).get();
         }

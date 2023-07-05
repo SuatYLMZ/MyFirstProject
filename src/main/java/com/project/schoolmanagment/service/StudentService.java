@@ -16,6 +16,7 @@ import com.project.schoolmanagment.utils.CheckSameLessonProgram;
 import com.project.schoolmanagment.utils.Messages;
 import com.project.schoolmanagment.utils.ServiceHelpers;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.LifecycleState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -183,6 +184,7 @@ public class StudentService {
 
         return ResponseMessage.<StudentResponse>builder()
                 .message("Lessons added to student")
+                .object(studentDto.mapStudentToStudentResponse(savedStudent))
                 .httpStatus(HttpStatus.OK)
                 .build();
     }
