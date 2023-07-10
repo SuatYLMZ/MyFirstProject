@@ -63,7 +63,6 @@ public class WebSecurityConfig {
 	}
 
 
-
 	/**
 	 * ,this will be our token filer.
 	 */
@@ -122,6 +121,9 @@ public class WebSecurityConfig {
 			"/js/**",
 			"/auth/login"
 	};
+
+
+	//son videoda dakika 35 de kalindi
 
 
 
